@@ -34,6 +34,9 @@ do
    fi
 done
 
+python --version
+python3 --version
+
 mkdir -p downloads
 mkdir -p bin
 
