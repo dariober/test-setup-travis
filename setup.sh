@@ -18,3 +18,5 @@ make
 cp bin/* ${cwd}/bin/
 
 cd ${cwd}
+
+pip3 --version
