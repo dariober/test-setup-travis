@@ -34,17 +34,14 @@ do
    fi
 done
 
+cwd=`pwd`
 mkdir -p downloads
 mkdir -p bin
-
-cwd=`pwd`
-cd downloads
 
 # R packages
 R --version
 which R
-Rscript install_pkgs.R
-cd ${cwd}/downloads
+Rscript install/install_pkgs.R
 
 exit 0
 
@@ -55,9 +52,9 @@ then
 else
     pip3 install snakemake
 fi
-cd ${cwd}/downloads
 
 # Samtools
+cd ${cwd}/downloads
 wget https://github.com/samtools/samtools/releases/download/1.8/samtools-1.8.tar.bz2
 tar xf samtools-1.8.tar.bz2
 rm samtools-1.8.tar.bz2
@@ -66,13 +63,13 @@ cd samtools-1.8
 make
 make install
 cp samtools ${cwd}/bin/
-cd ${cwd}/downloads
 
 # bedtools
+cd ${cwd}/downloads
 wget https://github.com/arq5x/bedtools2/releases/download/v2.27.1/bedtools-2.27.1.tar.gz 
 tar xf bedtools-2.27.1.tar.gz 
 rm bedtools-2.27.1.tar.gz
 cd bedtools2
 make
-cp bin/bedtools ../bin/intersectBed ${cwd}/bin/
+cp bin/bedtools bin/intersectBed ${cwd}/bin/
 
