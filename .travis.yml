@@ -1,11 +1,14 @@
 sudo: false
 dist: "trusty"
 language: bash
+python:
+    "3.6"
 addons:
   apt:
     packages:
       - "python3"
       - "python3-pip"
+
 
 script:
     - bash setup.sh --user
