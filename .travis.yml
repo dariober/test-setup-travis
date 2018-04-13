@@ -1,12 +1,16 @@
 language: bash
-addons:
-  apt:
-    sources:
-      - deadsnakes
-    packages:
-      - "python3.5"
-      - "python3-pip"
+#addons:
+#  apt:
+#    sources:
+#      - deadsnakes
+#    packages:
+#      - "python3.5"
+#      - "python3-pip"
 
+before_install
+    - wget https://www.python.org/ftp/python/3.6.5/Python-3.6.5.tgz
+    - tar xf Python-3.6.5.tgz && cd Python-3.6.5
+    - ./configure --prefix=${HOME} && make && make install
 
 script:
     - bash setup.sh --user
