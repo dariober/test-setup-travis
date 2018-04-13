@@ -1,7 +1,38 @@
 #!/usr/bin/env bash
 
+VERSION=0.1.0
+
 set -e
 set -o pipefail
+
+if [[ $1 == '-h' || $1 == '--help' ]]
+then
+cat <<EOF
+DESCRIPTION
+Install script
+
+USAGE
+bash setup.sh [--user]
+
+Version $VERSION
+EOF
+exit 0
+fi
+
+if [[ $1 == '-v' || $1 == '--version' ]]
+then
+    echo $VERSION
+    exit 0
+fi
+
+user=0
+for x in "$@"
+do
+   if [[ "$x" == "--user" ]]
+   then
+       user=1
+   fi
+done
 
 mkdir -p downloads
 mkdir -p bin
@@ -17,6 +48,10 @@ cwd=`pwd`
 #cp bin/bedtools ../bin/intersectBed ${cwd}/bin/
 #cd ${cwd}
 
-xpip=`which pip`
-python3 ${xpip} install snakemake
+if [[ $user == 1 ]]
+then
+    pip install --user snakemake
+else
+    pip install snakemake
+fi
 cd ${cwd}
