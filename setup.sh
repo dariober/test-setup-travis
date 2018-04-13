@@ -40,7 +40,6 @@ mkdir -p bin
 
 # R packages
 R --version
-which R
 Rscript install/install_pkgs.R
 
 exit 0
