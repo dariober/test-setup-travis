@@ -1,11 +1,6 @@
 sudo: false
 language: bash
 
-addons:
-    apt:
-        packages:
-            - gfortran
-
 before_install:
      - sudo apt-get update -q
      - sudo apt-get -y install gfortran
