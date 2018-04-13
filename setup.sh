@@ -50,8 +50,8 @@ cwd=`pwd`
 
 if [[ $user == 1 ]]
 then
-    pip install --user snakemake
+    pip3 install --user snakemake
 else
-    pip install snakemake
+    pip3 install snakemake
 fi
 cd ${cwd}
