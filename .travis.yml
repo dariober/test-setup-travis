@@ -3,4 +3,4 @@ sudo: false
 language: bash
 
 script:
-    - bash setup.sh
+    - bash setup.sh --user
