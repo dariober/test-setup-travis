@@ -38,6 +38,7 @@ python3 --version
 which python3
 which python3.5
 echo $PATH
+pip3 --version
 which pip3
 head `which pip3`
 
