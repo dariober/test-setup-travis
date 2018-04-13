@@ -3,7 +3,7 @@
 install.packages('data.table', repos='http://cran.r-project.org')
 install.packages('argparse', repos='http://cran.r-project.org')
 install.packages('devtools', repos='http://cran.r-project.org')
-devtools::install_github("mskcc/facets", build_vignettes = TRUE)
+devtools::install_github("mskcc/facets")
 
 #system('git clone https://github.com/mskcc/pctGCdata.git downloads/pctGCdata')
 #install.packages("downloads/pctGCdata", repos= NULL, type= "source")

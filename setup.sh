@@ -34,18 +34,18 @@ do
    fi
 done
 
+echo "VERSION"
+echo "-------"
+which R
+R --version
+
+which python3
+python3 --version
+echo "-------"
+
 cwd=`pwd`
 mkdir -p downloads
 mkdir -p bin
-
-# R packages
-R --version
-which R
-python3 --version
-which python3
-Rscript install/install_pkgs.R
-
-exit 0
 
 # Snakemake
 if [[ $user == 1 ]]
@@ -74,4 +74,7 @@ rm bedtools-2.27.1.tar.gz
 cd bedtools2
 make
 cp bin/bedtools bin/intersectBed ${cwd}/bin/
+
+# R packages
+Rscript install/install_pkgs.R
 
