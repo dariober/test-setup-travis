@@ -45,6 +45,9 @@ python3 --version
 
 which python3.6
 python3.6 --version
+
+which pip3
+pip3 --version
 echo "-------"
 
 cwd=`pwd`
@@ -52,12 +55,12 @@ mkdir -p downloads
 mkdir -p bin
 
 # Snakemake
-#if [[ $user == 1 ]]
-#then
-#    pip3 install --user snakemake
-#else
-#    pip3 install snakemake
-#fi
+if [[ $user == 1 ]]
+then
+    pip3 install --user snakemake
+else
+    pip3 install snakemake
+fi
 
 # Samtools
 cd ${cwd}/downloads
@@ -69,6 +72,8 @@ cd samtools-1.8
 make
 make install
 cp samtools ${cwd}/bin/
+cd ${cwd}
+bin/samtools --version
 
 # bedtools
 cd ${cwd}/downloads
@@ -78,7 +83,10 @@ rm bedtools-2.27.1.tar.gz
 cd bedtools2
 make
 cp bin/bedtools bin/intersectBed ${cwd}/bin/
+cd ${cwd}
+bin/bedtools --version
 
 # R packages
+cd ${cwd}
 Rscript install/install_pkgs.R
 

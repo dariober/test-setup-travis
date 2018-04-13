@@ -8,6 +8,7 @@ before_install:
     - sudo apt-get -y install gfortran
     - sudo apt-get -y install r-base
     - sudo apt-get -y install python3.6
+    - sudo apt-get -y install python3-pip
     - mkdir -p ~/R/library && echo '.libPaths(c("~/R/library", .libPaths()))' >> ~/.Rprofile
 
 script:
