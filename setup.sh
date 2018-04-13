@@ -34,31 +34,43 @@ do
    fi
 done
 
-python3 --version
-which python3
-echo $PATH
-pip3 --version
-which pip3
-head `which pip3`
-
 mkdir -p downloads
 mkdir -p bin
 
-cd downloads
 cwd=`pwd`
+cd downloads
 
-#wget https://github.com/arq5x/bedtools2/releases/download/v2.27.1/bedtools-2.27.1.tar.gz 
-#tar xf bedtools-2.27.1.tar.gz 
-#rm bedtools-2.27.1.tar.gz
-#cd bedtools2
-#make
-#cp bin/bedtools ../bin/intersectBed ${cwd}/bin/
-#cd ${cwd}
+# R packages
+Rscript pkg_install.R
+cd ${cwd}/downloads
 
+exit 0
+
+# Snakemake
 if [[ $user == 1 ]]
 then
     pip3 install --user snakemake
 else
     pip3 install snakemake
 fi
-cd ${cwd}
+cd ${cwd}/downloads
+
+# Samtools
+wget https://github.com/samtools/samtools/releases/download/1.8/samtools-1.8.tar.bz2
+tar xf samtools-1.8.tar.bz2
+rm samtools-1.8.tar.bz2
+cd samtools-1.8
+./configure --prefix=`pwd`
+make
+make install
+cp samtools ${cwd}/bin/
+cd ${cwd}/downloads
+
+# bedtools
+wget https://github.com/arq5x/bedtools2/releases/download/v2.27.1/bedtools-2.27.1.tar.gz 
+tar xf bedtools-2.27.1.tar.gz 
+rm bedtools-2.27.1.tar.gz
+cd bedtools2
+make
+cp bin/bedtools ../bin/intersectBed ${cwd}/bin/
+
