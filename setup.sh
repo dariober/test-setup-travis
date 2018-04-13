@@ -36,11 +36,15 @@ done
 
 echo "VERSION"
 echo "-------"
+echo $PATH
 which R
 R --version
 
 which python3
 python3 --version
+
+which python3.6
+python3.6 --version
 echo "-------"
 
 cwd=`pwd`
@@ -48,12 +52,12 @@ mkdir -p downloads
 mkdir -p bin
 
 # Snakemake
-if [[ $user == 1 ]]
-then
-    pip3 install --user snakemake
-else
-    pip3 install snakemake
-fi
+#if [[ $user == 1 ]]
+#then
+#    pip3 install --user snakemake
+#else
+#    pip3 install snakemake
+#fi
 
 # Samtools
 cd ${cwd}/downloads
