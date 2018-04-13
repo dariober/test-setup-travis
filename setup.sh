@@ -37,6 +37,9 @@ done
 python3 --version
 which python3
 which python3.5
+echo $PATH
+which pip3
+head `which pip3`
 
 mkdir -p downloads
 mkdir -p bin
