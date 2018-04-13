@@ -41,7 +41,7 @@ cwd=`pwd`
 cd downloads
 
 # R packages
-Rscript pkg_install.R
+Rscript install_pkgs.R
 cd ${cwd}/downloads
 
 exit 0
