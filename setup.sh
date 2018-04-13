@@ -41,6 +41,8 @@ cwd=`pwd`
 cd downloads
 
 # R packages
+R --version
+which R
 Rscript install_pkgs.R
 cd ${cwd}/downloads
 
