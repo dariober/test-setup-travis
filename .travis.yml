@@ -6,11 +6,11 @@ addons:
         packages:
             - r-base
 
-#before_install:
+before_install:
 #    - wget https://www.python.org/ftp/python/3.6.5/Python-3.6.5.tgz
 #    - tar xf Python-3.6.5.tgz && cd Python-3.6.5
 #    - ./configure --prefix=${HOME} && make && make install
 #    - cd ../
-
+    - mkdir -p ~/R/library && echo '.libPaths(c("~/R/library", .libPaths()))' >> ~/.Rprofile
 script:
     - bash setup.sh --user
