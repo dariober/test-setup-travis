@@ -1,5 +1,6 @@
 sudo: false
 language: bash
+dist: xenial
 
 before_install:
     - sudo apt-get update -q

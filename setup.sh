@@ -40,7 +40,9 @@ mkdir -p bin
 
 # R packages
 R --version
+which R
 python3 --version
+which python3
 Rscript install/install_pkgs.R
 
 exit 0
