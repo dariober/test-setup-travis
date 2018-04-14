@@ -1,4 +1,4 @@
-sudo: required
+sudo: false
 language: bash
 dist: trusty
 
@@ -15,7 +15,7 @@ before_install:
     - which python3
     - ls -l ${PATH%%:*}/
     - sudo apt-get -y install python3-pip
-    - ls -l ${PATH%%:*}/
+    - ls -l /usr/bin/
     - mkdir -p ~/R/library && echo '.libPaths(c("~/R/library", .libPaths()))' >> ~/.Rprofile
 
 script:
