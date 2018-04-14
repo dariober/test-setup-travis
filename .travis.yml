@@ -2,8 +2,8 @@ sudo: false
 language: bash
 dist: trusty
 
+# - sudo add-apt-repository "deb http://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -s -c) main"
 before_install:
-    - sudo add-apt-repository "deb http://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -s -c) main"
     - sudo add-apt-repository -y ppa:deadsnakes/ppa
     - sudo apt-get update -q
     - sudo apt-get -y install python3.6
