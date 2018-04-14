@@ -57,6 +57,10 @@ cwd=`pwd`
 mkdir -p downloads
 mkdir -p bin
 
+# R packages
+cd ${cwd}
+Rscript install/install_pkgs.R
+
 # Snakemake
 if [[ $user == 1 ]]
 then
@@ -89,7 +93,4 @@ cp bin/bedtools bin/intersectBed ${cwd}/bin/
 cd ${cwd}
 bin/bedtools --version
 
-# R packages
-cd ${cwd}
-Rscript install/install_pkgs.R
 
