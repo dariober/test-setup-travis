@@ -4,6 +4,7 @@ VERSION=0.1.0
 
 set -e
 set -o pipefail
+set -x
 
 if [[ $1 == '-h' || $1 == '--help' ]]
 then
@@ -39,6 +40,8 @@ echo "-------"
 echo $PATH
 which R
 R --version
+which Rscript
+Rscript --version
 
 which python3
 python3 --version
