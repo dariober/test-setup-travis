@@ -11,7 +11,7 @@ before_install:
     - python3 --version
     - wget https://bootstrap.pypa.io/get-pip.py 
     - python3 get-pip.py --verbose --user
-    - easy_install-3.6 pip
+    - easy_install-3.6 --user --verbose pip
     - pip3 --version || true
     - pip --version || true
     - sudo apt-get -y install gfortran
