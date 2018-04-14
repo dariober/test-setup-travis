@@ -10,15 +10,16 @@ before_install:
     - sudo add-apt-repository -y ppa:deadsnakes/ppa
     - sudo apt-get update -q
     - sudo apt-get -y install gfortran
-    - curl -s https://cran.r-project.org/src/base/R-3/R-3.4.4.tar.gz | tar xf -
+    - curl -s https://cran.r-project.org/src/base/R-3/R-3.4.4.tar.gz | tar xfz -
     - pushd . && cd R-3.4.4
     - ./configure --prefix=${HOME}
     - make -j 6 
     - make -j 6 install && popd
     - echo 'export PATH=${HOME}/lib/R/bin:$PATH' >> ~/.bash_profile && source ~/.bash_profile
+    - find . -name 'Rscript'
     - ls -l ${HOME}/lib/R/bin
-    - Rscript install/install_pkgs.R
     - mkdir -p ~/R/library && echo '.libPaths(c("~/R/library", .libPaths()))' >> ~/.Rprofile
+    - Rscript install/install_pkgs.R
     - sudo apt-get -y install python3.6-dev
     - ln -sf `which python3.6` ${PATH%%:*}/python3 
     - wget https://bootstrap.pypa.io/get-pip.py 
