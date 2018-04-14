@@ -15,7 +15,7 @@ before_install:
     - sudo apt-get -y install r-base-dev
     - which R
     - Rscript --version
-    - Rscript install/install_pkgs.R
+    - sudo Rscript install/install_pkgs.R
     - mkdir -p ~/R/library && echo '.libPaths(c("~/R/library", .libPaths()))' >> ~/.Rprofile
 
 script:
