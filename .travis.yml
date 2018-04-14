@@ -14,8 +14,9 @@ before_install:
     - tar xf R-3.4.4.tar.gz 
     - pushd . && cd R-3.4.4
     - ./configure --prefix=${HOME}
-    - make 
-    - make install && popd
+    - make -j 6 
+    - make -j 6 install && popd
+    - echo 'export PATH=${HOME}/lib/R/bin:$PATH' >> ~/.bash_profile && source ~/.bash_profile
     - sudo Rscript install/install_pkgs.R
     - mkdir -p ~/R/library && echo '.libPaths(c("~/R/library", .libPaths()))' >> ~/.Rprofile
     - sudo apt-get -y install python3.6-dev
