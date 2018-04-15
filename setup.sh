@@ -4,7 +4,6 @@ VERSION=0.1.0
 
 set -e
 set -o pipefail
-set -x
 
 if [[ $1 == '-h' || $1 == '--help' ]]
 then
@@ -39,7 +38,12 @@ cwd=`pwd`
 mkdir -p downloads
 mkdir -p bin
 
-# Bio-DB-HTS
+# Bio::Perl -- Required by Bio-DB-HTS
+#cd ${cwd}/downloads
+#export PERL_MM_USE_DEFAULT=1
+#perl -MCPAN -e 'install Bio::Perl'
+
+# Bio-DB-HTS -- Required by VEP
 cd ${cwd}/downloads
 export PERL_MM_USE_DEFAULT=1
 perl -MCPAN -e 'install Bio::Perl'
