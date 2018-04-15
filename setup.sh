@@ -40,22 +40,18 @@ mkdir -p bin
 
 # Bio::Perl -- Required by Bio-DB-HTS
 #cd ${cwd}/downloads
-#export PERL_MM_USE_DEFAULT=1
 #perl -MCPAN -e 'install Bio::Perl'
 
 # Bio-DB-HTS -- Required by VEP
-cd ${cwd}/downloads
-export PERL_MM_USE_DEFAULT=1
-perl -MCPAN -e 'install Bio::Perl'
-
-wget https://github.com/Ensembl/Bio-DB-HTS/archive/2.10.tar.gz
-tar xf 2.10.tar.gz
-rm 2.10.tar.gz
-cd Bio-DB-HTS-2.10
-perl INSTALL.pl
+#wget https://github.com/Ensembl/Bio-DB-HTS/archive/2.10.tar.gz
+#tar xf 2.10.tar.gz
+#rm 2.10.tar.gz
+#cd Bio-DB-HTS-2.10
+#perl INSTALL.pl
 
 # VEP
 cd ${cwd}/downloads
+export PERL_MM_USE_DEFAULT=1
 wget https://github.com/Ensembl/ensembl-vep/archive/release/92.1.tar.gz
 tar xf 92.1.tar.gz
 rm 92.1.tar.gz
