@@ -51,9 +51,13 @@ ln -sf `pwd`/vep ${cwd}/bin/
 cd ${cwd}
 bin/vep --help
 
-wget ftp://ftp.ensembl.org/pub/release-92/variation/VEP/homo_sapiens_vep_92_GRCh38.tar.gz
-tar xf homo_sapiens_vep_92_GRCh38.tar.gz
-rm homo_sapiens_vep_92_GRCh38.tar.gz
+# VEP cache
+mkdir -p ${cwd}/vep
+cd ${cwd}/vep
+# curl ftp://ftp.ensembl.org/pub/release-92/variation/VEP/homo_sapiens_vep_92_GRCh38.tar.gz | tar xfz -
+curl ftp://ftp.ensembl.org/pub/release-92/variation/VEP/drosophila_melanogaster_vep_92_BDGP6.tar.gz | tar xfz -
+cd ${cwd}
+bin/vep --cache --dir_cache vep/ -i downloads/ensembl-vep-release-92.1/examples/drosophila_melanogaster_BDGP6.vcf -o test.vcf --vcf
 
 #########
 exit 0
