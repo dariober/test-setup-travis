@@ -39,17 +39,6 @@ cwd=`pwd`
 mkdir -p downloads
 mkdir -p bin
 
-# Bio::Perl -- Required by Bio-DB-HTS
-#cd ${cwd}/downloads
-#perl -MCPAN -e 'install Bio::Perl'
-
-# Bio-DB-HTS -- Required by VEP
-#wget https://github.com/Ensembl/Bio-DB-HTS/archive/2.10.tar.gz
-#tar xf 2.10.tar.gz
-#rm 2.10.tar.gz
-#cd Bio-DB-HTS-2.10
-#perl INSTALL.pl
-
 # VEP
 cd ${cwd}/downloads
 export PERL_MM_USE_DEFAULT=1
@@ -61,6 +50,10 @@ perl INSTALL.pl --NO_HTSLIB --AUTO a
 ln -sf `pwd`/vep ${cwd}/bin/
 cd ${cwd}
 bin/vep --help
+
+wget ftp://ftp.ensembl.org/pub/release-92/variation/VEP/homo_sapiens_vep_92_GRCh38.tar.gz
+tar xf homo_sapiens_vep_92_GRCh38.tar.gz
+rm homo_sapiens_vep_92_GRCh38.tar.gz
 
 #########
 exit 0
