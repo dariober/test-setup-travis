@@ -41,6 +41,9 @@ mkdir -p bin
 
 # Bio-DB-HTS
 cd ${cwd}/downloads
+export PERL_MM_USE_DEFAULT=1
+perl -MCPAN -e 'install Bio::Perl'
+
 wget https://github.com/Ensembl/Bio-DB-HTS/archive/2.10.tar.gz
 tar xf 2.10.tar.gz
 rm 2.10.tar.gz
