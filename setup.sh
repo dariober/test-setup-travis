@@ -4,6 +4,7 @@ VERSION=0.1.0
 
 set -e
 set -o pipefail
+set -x 
 
 if [[ $1 == '-h' || $1 == '--help' ]]
 then
@@ -57,7 +58,7 @@ tar xf 92.1.tar.gz
 rm 92.1.tar.gz
 cd ensembl-vep-release-92.1
 perl INSTALL.pl --NO_HTSLIB --AUTO a 
-cp vep ${cwd}/bin/
+ln -sf `pwd`/vep ${cwd}/bin/
 cd ${cwd}
 bin/vep --help
 
