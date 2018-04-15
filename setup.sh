@@ -35,27 +35,32 @@ do
    fi
 done
 
-echo "VERSION"
-echo "-------"
-echo $PATH
-which R
-R --version
-which Rscript
-Rscript --version
-
-which python3
-python3 --version
-
-which python3.6
-python3.6 --version
-
-which pip3
-pip3 --version
-echo "-------"
-
 cwd=`pwd`
 mkdir -p downloads
 mkdir -p bin
+
+# Bio-DB-HTS
+cd ${cwd}/downloads
+wget https://github.com/Ensembl/Bio-DB-HTS/archive/2.10.tar.gz
+tar xf 2.10.tar.gz
+rm 2.10.tar.gz
+cd Bio-DB-HTS-2.10
+perl INSTALL.pl
+
+# VEP
+cd ${cwd}/downloads
+wget https://github.com/Ensembl/ensembl-vep/archive/release/92.1.tar.gz
+tar xf 92.1.tar.gz
+rm 92.1.tar.gz
+cd ensembl-vep-release-92.1
+perl INSTALL.pl --NO_HTSLIB --AUTO a 
+cp vep ${cwd}/bin/
+cd ${cwd}
+bin/vep --help
+
+#########
+exit 0
+#########
 
 # R packages
 cd ${cwd}
