@@ -75,7 +75,7 @@ found=`command -v gatk` || true
 if [[ -z $found ]]
 then
     wget https://github.com/broadinstitute/gatk/releases/download/4.0.3.0/gatk-4.0.3.0.zip
-    unzip gatk-4.0.3.0.zip
+    unzip -q gatk-4.0.3.0.zip
     rm gatk-4.0.3.0.zip
     ln -s `pwd`/gatk-4.0.3.0/gatk ${bin_dir}/
 fi
