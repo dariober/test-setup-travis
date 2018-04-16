@@ -71,7 +71,7 @@ mkdir -p downloads
 found=`command -v snakemake` || true
 if [[ -z $found ]]
 then
-    pip3 install -user snakemake
+    pip3 install --user snakemake
 fi
 command -v snakemake
 snakemake --version
@@ -87,7 +87,7 @@ then
     rm 92.1.tar.gz
     cd ensembl-vep-release-92.1
     perl INSTALL.pl --NO_HTSLIB --AUTO a 
-    ln -sf `pwd`/vep ${bin_dir}/
+    ln -s `pwd`/vep ${bin_dir}/
 fi
 command -v vep
 vep --help
