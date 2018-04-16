@@ -65,10 +65,12 @@ fi
 
 set -x 
 
-R --version
-
 cwd=`pwd`
 mkdir -p downloads
+
+# R packages
+cd ${cwd}
+Rscript install/install_pkgs.R
 
 # GATK4
 found=`command -v gatk` || true
@@ -139,9 +141,4 @@ fi
 command -v bedtools
 bedtools --version
 
-exit 0
-
-# R packages
-cd ${cwd}
-Rscript install/install_pkgs.R
 
