@@ -60,18 +60,31 @@ then
     echo "$PG $VERSION"
     exit 0
 fi
+# End argument parsing
+# ====================
 
 set -x 
-# ==========
 
 cwd=`pwd`
 mkdir -p downloads
+
+# GATK4
+found=`command -v gatk` || true
+if [[ -z $found ]]
+then
+    wget https://github.com/broadinstitute/gatk/releases/download/4.0.3.0/gatk-4.0.3.0.zip
+    unzip gatk-4.0.3.0.zip
+    rm gatk-4.0.3.0.zip
+    ln -s `pwd`/gatk-4.0.3.0/gatk ${bin_dir}/
+fi
+command -v gatk
+gatk Mutect2 --version
 
 # Snakemake
 found=`command -v snakemake` || true
 if [[ -z $found ]]
 then
-    pip3 install --user snakemake
+    pip3 install --user 'snakemake==4.8.0'
 fi
 command -v snakemake
 snakemake --version

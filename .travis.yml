@@ -5,6 +5,7 @@ dist: trusty
 before_install:
     - sudo add-apt-repository -y ppa:deadsnakes/ppa
     - sudo apt-get update -q
+    - sudo apt-get install openjdk-8-jdk
     - sudo apt-get -y install python3.6-dev
     - ln -sf `which python3.6` ${PATH%%:*}/python3 
     - wget https://bootstrap.pypa.io/get-pip.py 
