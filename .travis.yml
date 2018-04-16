@@ -8,7 +8,6 @@ dist: trusty
 #      - oraclejdk8
 
 before_install:
-    - java -version && javac -version
     - sudo add-apt-repository -y ppa:deadsnakes/ppa
     - sudo apt-get update -q
     - sudo apt-get -y install python3.6-dev

@@ -65,6 +65,9 @@ fi
 
 set -x 
 
+java -version
+javac -version
+
 cwd=`pwd`
 mkdir -p downloads
 
