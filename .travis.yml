@@ -8,9 +8,10 @@ dist: trusty
 #      - oraclejdk8
 
 before_install:
-    - R --version || true
-    - sudo add-apt-repository -y universe
-    - sudo apt-get -y install r-base
+    - sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9
+    - sudo su -c "echo 'deb http://cran.r-project.org/bin/linux/ubuntu trusty' >> /etc/apt/sources.list"
+    - sudo apt-get -y update 
+    - sudo apt-get install r-base r-base-dev
     - R --version
     - sudo add-apt-repository -y ppa:deadsnakes/ppa
     - sudo add-apt-repository -y ppa:openjdk-r/ppa
