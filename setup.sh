@@ -83,10 +83,6 @@ fi
 command -v bwa
 bwa || true # bwa doesn't have a --version or --help option
 
-# R packages
-cd ${cwd}
-Rscript install/install_pkgs.R
-
 # GATK4
 found=`command -v gatk` || true
 if [[ -z $found ]]
@@ -135,13 +131,47 @@ then
     cd samtools-1.8
     ./configure --prefix=`pwd`
     make
-    make install
     cp samtools ${bin_dir}/
 fi
 command -v samtools
 samtools --version
 
-# bedtools
+# HTSLIB (tabix & bgzip)
+found=`command -v tabix` || true
+if [[ -z $found ]]
+then
+    cd ${cwd}/downloads
+    wget https://github.com/samtools/htslib/releases/download/1.8/htslib-1.8.tar.bz2
+    tar xf htslib-1.8.tar.bz2
+    rm htslib-1.8.tar.bz2
+    cd htslib-1.8
+    ./configure --prefix=`pwd`
+    make
+    cp tabix ${bin_dir}/
+    cp bgzip ${bin_dir}/
+fi
+command -v tabix 
+tabix --version
+command -v bgzip 
+bgzip --version
+
+# bcftools
+found=`command -v bcftools` || true
+if [[ -z $found ]]
+then
+    cd ${cwd}/downloads
+    wget https://github.com/samtools/bcftools/releases/download/1.8/bcftools-1.8.tar.bz2
+    tar xf bcftools-1.8.tar.bz2
+    rm bcftools-1.8.tar.bz2
+    cd bcftools-1.8
+    ./configure --prefix=`pwd`
+    make
+    cp bcftools ${bin_dir}/
+fi
+command -v bcftools 
+bcftools --version
+
+# BEDTOOLS
 found=`command -v bedtools` || true
 if [[ -z $found ]]
 then
@@ -156,4 +186,7 @@ fi
 command -v bedtools
 bedtools --version
 
+# R packages
+cd ${cwd}
+Rscript install/install_pkgs.R
 
