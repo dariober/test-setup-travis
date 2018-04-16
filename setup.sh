@@ -45,7 +45,8 @@ cat <<EOF
 DESCRIPTION
 Install script
 
--b|--bin_dir  Install missing programs in this directory. Default $bin_dir
+-b|--bin_dir  Install missing programs here. This dir should writable and on
+              your PATH. Default $bin_dir
 -v|--version  Show version
 -h|--help     Show help
 

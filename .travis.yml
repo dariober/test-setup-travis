@@ -22,4 +22,4 @@ before_install:
 
 script:
     - bash setup.sh --help
-    - bash setup.sh --user
+    - bash setup.sh
