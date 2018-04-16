@@ -50,18 +50,7 @@ perl INSTALL.pl --NO_HTSLIB --AUTO a
 ln -sf `pwd`/vep ${cwd}/bin/
 cd ${cwd}
 bin/vep --help
-
-# VEP cache
-mkdir -p ${cwd}/vep
-cd ${cwd}/vep
-curl ftp://ftp.ensembl.org/pub/release-92/variation/VEP/homo_sapiens_vep_92_GRCh38.tar.gz | tar xfz -
-cd ${cwd}
-bin/vep --offline \
-    --cache \
-    --dir_cache vep/ \
-    --vcf \
-    -i downloads/ensembl-vep-release-92.1/examples/homo_sapiens_GRCh38.vcf \
-    -o test.vep.vcf
+bin/vep --database --vcf -i downloads/ensembl-vep-release-92.1/examples/homo_sapiens_GRCh38.vcf -o test.vep.vcf
 rm test.vep.vcf*
 
 #########
