@@ -68,6 +68,21 @@ set -x
 cwd=`pwd`
 mkdir -p downloads
 
+# BWA
+found=`command -v bwa` || true
+if [[ -z $found ]]
+then
+    cd ${cwd}/downloads
+    wget https://github.com/lh3/bwa/archive/v0.7.17.tar.gz
+    tar xf v0.7.17.tar.gz
+    rm v0.7.17.tar.gz
+    cd bwa-0.7.17
+    make
+    cp bwa ${bin_dir}/
+fi
+command -v bwa
+bwa || true # bwa doesn't have a --version or --help option
+
 # R packages
 cd ${cwd}
 Rscript install/install_pkgs.R
