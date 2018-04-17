@@ -33,7 +33,6 @@ case $key in
     *)
         echo "Unknown option in $@"  
         exit 1
-    POSITIONAL+=("$1") # save it in an array for later
     shift # past argument
     ;;
 esac
@@ -43,7 +42,8 @@ if [[ $help == 1 ]]
 then
 cat <<EOF
 DESCRIPTION
-Install script
+Installer of several required programs. Only programs not found on PATH will be
+installed. See code for programs and versions.
 
 -b|--bin_dir  Install missing programs here. This dir should writable and on
               your PATH. Default $bin_dir
@@ -68,6 +68,30 @@ set -x
 cwd=`pwd`
 mkdir -p downloads
 
+# igvtools
+# bbduk
+# fastqc
+# snp-pileup (facets)
+# manta
+# pindel (?)
+# pysam <- Rewrite requesting package(s) in java?
+
+found=`command -v bamsort` || true
+if [[ -z $found ]]
+then
+    cd ${cwd}/downloads
+    wget https://github.com/gt1/biobambam/releases/download/0.0.191-release-20150401083643/biobambam-0.0.191-release-20150401083643-x86_64-etch-linux-gnu.tar.gz
+    tar xf biobambam-0.0.191-release-20150401083643-x86_64-etch-linux-gnu.tar.gz
+    rm biobambam-0.0.191-release-20150401083643-x86_64-etch-linux-gnu.tar.gz
+    cp biobambam-0.0.191-release-20150401083643-x86_64-etch-linux-gnu/bin/bamsort ${bin_dir}/
+fi
+command -v bamsort
+bamsort --version
+
+# R packages
+cd ${cwd}
+Rscript install/install_pkgs.R
+
 # BWA
 found=`command -v bwa` || true
 if [[ -z $found ]]
@@ -87,6 +111,7 @@ bwa || true # bwa doesn't have a --version or --help option
 found=`command -v gatk` || true
 if [[ -z $found ]]
 then
+    cd ${cwd}/downloads
     wget https://github.com/broadinstitute/gatk/releases/download/4.0.3.0/gatk-4.0.3.0.zip
     unzip -q gatk-4.0.3.0.zip
     rm gatk-4.0.3.0.zip
@@ -103,6 +128,9 @@ then
 fi
 command -v snakemake
 snakemake --version
+
+# Python/Pandas
+pip3 install --user pandas
 
 # VEP
 found=`command -v vep` || true
@@ -186,7 +214,5 @@ fi
 command -v bedtools
 bedtools --version
 
-# R packages
-cd ${cwd}
-Rscript install/install_pkgs.R
+
 

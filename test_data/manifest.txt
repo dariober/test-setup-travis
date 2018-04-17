@@ -1,0 +1,7 @@
+fastq	library	patient	sample_type	rmate
+test_data/fastq/N1_S4_R1_001.fastq.gz	N1	P1	Normal	R1
+test_data/fastq/N1_S4_R2_001.fastq.gz	N1	P1	Normal	R2
+test_data/fastq/T1_S4_R1_001.fastq.gz	T1	P1	Tumour	R1
+test_data/fastq/T1_S4_R2_001.fastq.gz	T1	P1	Tumour	R2
+test_data/fastq/P1_S4_R1_001.fastq.gz	P1	X1	PON	R1
+test_data/fastq/P1_S4_R2_001.fastq.gz	P1	X1	PON	R2
