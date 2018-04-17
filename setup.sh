@@ -80,10 +80,22 @@ found=`command -v bamsort` || true
 if [[ -z $found ]]
 then
     cd ${cwd}/downloads
-    wget https://github.com/gt1/biobambam/releases/download/0.0.191-release-20150401083643/biobambam-0.0.191-release-20150401083643-x86_64-etch-linux-gnu.tar.gz
-    tar xf biobambam-0.0.191-release-20150401083643-x86_64-etch-linux-gnu.tar.gz
-    rm biobambam-0.0.191-release-20150401083643-x86_64-etch-linux-gnu.tar.gz
-    cp biobambam-0.0.191-release-20150401083643-x86_64-etch-linux-gnu/bin/bamsort ${bin_dir}/
+    wget https://github.com/gt1/libmaus2/archive/2.0.467-release-20180413165825.tar.gz
+    tar xf 2.0.467-release-20180413165825.tar.gz
+    rm 2.0.467-release-20180413165825.tar.gz
+    cd libmaus2-2.0.467-release-20180413165825/
+    ./configure --prefix=${HOME}
+    make
+    make install
+
+    wget https://github.com/gt1/biobambam2/archive/2.0.87-release-20180301132713.tar.gz
+    tar xf 2.0.87-release-20180301132713.tar.gz
+    rm 2.0.87-release-20180301132713.tar.gz
+    cd biobambam2.0.87-release-20180301132713
+    ./configure --with-libmaus2=${HOME} --prefix=${HOME}/biobambam2
+    make
+    make install
+    cp ${HOME}/biobambam2/bamsort ${bin_dir}/
 fi
 command -v bamsort
 bamsort --version
