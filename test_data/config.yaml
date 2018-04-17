@@ -1,0 +1,7 @@
+manifest: test_data/manifest.txt
+ref: test_data/ref/chr18.small.fa
+vep_dir_cache: test_data/downloads/vep/
+chroms: [chr18]
+dbsnp: test_data/ref/...All_20170710.vcf.gz
+bin_dir: /bin
+output_dir: test_data/out

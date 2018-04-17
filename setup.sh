@@ -85,16 +85,16 @@ then
     rm 2.0.467-release-20180413165825.tar.gz
     cd libmaus2-2.0.467-release-20180413165825/
     ./configure --prefix=${HOME}
-    make
-    make install
+    make -j 6 
+    make -j 6 install
 
     wget https://github.com/gt1/biobambam2/archive/2.0.87-release-20180301132713.tar.gz
     tar xf 2.0.87-release-20180301132713.tar.gz
     rm 2.0.87-release-20180301132713.tar.gz
-    cd biobambam2.0.87-release-20180301132713
+    cd biobambam2-2.0.87-release-20180301132713
     ./configure --with-libmaus2=${HOME} --prefix=${HOME}/biobambam2
-    make
-    make install
+    make -j 6
+    make -j 6 install
     cp ${HOME}/biobambam2/bamsort ${bin_dir}/
 fi
 command -v bamsort
@@ -220,7 +220,7 @@ then
     tar xf bedtools-2.27.1.tar.gz 
     rm bedtools-2.27.1.tar.gz
     cd bedtools2
-    make
+    make -j 6
     cp bin/* ${bin_dir}/
 fi
 command -v bedtools
