@@ -84,7 +84,7 @@ then
     tar xf 2.0.467-release-20180413165825.tar.gz
     rm 2.0.467-release-20180413165825.tar.gz
     cd libmaus2-2.0.467-release-20180413165825/
-    ./configure --prefix=${HOME}
+    ./configure --prefix=${HOME}/libmaus
     make -j 6 
     make -j 6 install
 
@@ -92,10 +92,11 @@ then
     tar xf 2.0.87-release-20180301132713.tar.gz
     rm 2.0.87-release-20180301132713.tar.gz
     cd biobambam2-2.0.87-release-20180301132713
-    ./configure --with-libmaus2=${HOME} --prefix=${HOME}/biobambam2
+    ./configure --with-libmaus2=${HOME}/libmaus --prefix=${HOME}/biobambam
     make -j 6
     make -j 6 install
-    cp ${HOME}/biobambam2/bamsort ${bin_dir}/
+    find ~/ -name 'bamsort'
+    cp ${HOME}/biobambam/2.0.87/bin/bamsort ${bin_dir}/
 fi
 command -v bamsort
 bamsort --version
