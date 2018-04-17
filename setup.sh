@@ -95,8 +95,7 @@ then
     ./configure --with-libmaus2=${HOME}/libmaus --prefix=${HOME}/biobambam
     make -j 6
     make -j 6 install
-    find ~/ -name 'bamsort'
-    cp ${HOME}/biobambam/2.0.87/bin/bamsort ${bin_dir}/
+    cp ${HOME}/biobambam/bin/bamsort ${bin_dir}/
 fi
 command -v bamsort
 bamsort --version
@@ -104,6 +103,20 @@ bamsort --version
 # R packages
 cd ${cwd}
 Rscript install/install_pkgs.R
+
+# IGVTools
+found=`command -v igvtools` || true
+if [[ -z $found ]]
+then
+    cd ${cwd}/downloads
+    wget http://data.broadinstitute.org/igv/projects/downloads/2.3/igvtools_2.3.98.zip
+    unzip -q igvtools_2.3.98.zip
+    rm igvtools_2.3.98.zip
+    cp IGVTools/igvtools ${bin_dir}/
+    cp IGVTools/igvtools.jar ${bin_dir}/
+fi
+command -v igvtools
+igvtools help
 
 # BWA
 found=`command -v bwa` || true
