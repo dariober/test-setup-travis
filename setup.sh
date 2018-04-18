@@ -103,7 +103,7 @@ mv manta-1.3.2.centos6_x86_64 manta
 manta/bin/configManta.py -h
 
 # BBDuk
-found=`command -v igvtools` || true
+found=`command -v bbduk.sh` || true
 if [[ -z $found ]]
 then
     cd ${cwd}/downloads
