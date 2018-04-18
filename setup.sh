@@ -67,6 +67,7 @@ set -x
 
 cwd=`pwd`
 mkdir -p downloads
+mkdir -p bin
 
 # snp-pileup (facets)
 # pindel (?)
