@@ -103,7 +103,7 @@ then
     cd facets/inst/extcode/
     g++ -std=c++11 -I${cwd}/downloads/htslib/include snp-pileup.cpp \
         -L${cwd}/downloads/htslib/lib -lhts -Wl,-rpath=${cwd}/downloads/htslib/lib -o snp-pileup
-    cp snp-pileup/* ${bin_dir}/
+    cp snp-pileup ${bin_dir}/
 fi
 command -v snp-pileup
 snp-pileup --help
