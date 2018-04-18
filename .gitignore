@@ -3,4 +3,5 @@ downloads/
 bin/
 test_data/fastq
 test_data/ref
+test_data/out
 workflows

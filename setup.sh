@@ -68,41 +68,15 @@ set -x
 cwd=`pwd`
 mkdir -p downloads
 
-# igvtools
-# bbduk
-# fastqc
 # snp-pileup (facets)
-# manta
 # pindel (?)
 # pysam <- Rewrite requesting package(s) in java?
 
-found=`command -v bamsort` || true
-if [[ -z $found ]]
-then
-    cd ${cwd}/downloads
-    wget https://github.com/gt1/libmaus2/archive/2.0.467-release-20180413165825.tar.gz
-    tar xf 2.0.467-release-20180413165825.tar.gz
-    rm 2.0.467-release-20180413165825.tar.gz
-    cd libmaus2-2.0.467-release-20180413165825/
-    ./configure --prefix=${HOME}/libmaus
-    make -j 6 
-    make -j 6 install
-
-    wget https://github.com/gt1/biobambam2/archive/2.0.87-release-20180301132713.tar.gz
-    tar xf 2.0.87-release-20180301132713.tar.gz
-    rm 2.0.87-release-20180301132713.tar.gz
-    cd biobambam2-2.0.87-release-20180301132713
-    ./configure --with-libmaus2=${HOME}/libmaus --prefix=${HOME}/biobambam
-    make -j 6
-    make -j 6 install
-    cp ${HOME}/biobambam/bin/bamsort ${bin_dir}/
-fi
-command -v bamsort
-bamsort --version
-
-# R packages
-cd ${cwd}
-Rscript install/install_pkgs.R
+# Picard 
+cd ${cwd}/bin
+rm -f picard.jar
+wget https://github.com/broadinstitute/picard/releases/download/2.18.2/picard.jar
+java -jar picard.jar MarkDuplicates --version || true 
 
 # IGVTools
 found=`command -v igvtools` || true
@@ -117,6 +91,42 @@ then
 fi
 command -v igvtools
 igvtools help
+
+# Manta
+cd ${cwd}/bin
+rm -f manta-1.3.2.centos6_x86_64.tar.bz2 manta-1.3.2.centos6_x86_64
+wget https://github.com/Illumina/manta/releases/download/v1.3.2/manta-1.3.2.centos6_x86_64.tar.bz2
+tar xf manta-1.3.2.centos6_x86_64.tar.bz2
+rm manta-1.3.2.centos6_x86_64.tar.bz2
+mv manta-1.3.2.centos6_x86_64 manta
+manta/bin/configManta.py -h
+
+# BBDuk
+found=`command -v igvtools` || true
+if [[ -z $found ]]
+then
+    cd ${cwd}/downloads
+    wget --no-check-certificate https://sourceforge.net/projects/bbmap/files/BBMap_37.98.tar.gz
+    tar xf BBMap_37.98.tar.gz
+    rm BBMap_37.98.tar.gz
+    ln -s bbmap/bbduk.sh ${bin_dir}/
+fi
+command -v bbduk.sh
+bbduk.sh --help
+
+# FastQC
+found=`command -v fastqc` || true
+if [[ -z $found ]]
+then
+    cd ${cwd}/downloads
+    wget --no-check-certificate https://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v0.11.7.zip
+    unzip -q -o fastqc_v0.11.7.zip
+    rm fastqc_v0.11.7.zip
+    ln -s `pwd`/FastQC/fastqc ${bin_dir}/
+    chmod a+x `pwd`/FastQC/fastqc
+fi
+command -v fastqc
+fastqc --version
 
 # BWA
 found=`command -v bwa` || true
@@ -240,5 +250,6 @@ fi
 command -v bedtools
 bedtools --version
 
-
-
+# R packages
+cd ${cwd}
+Rscript install/install_pkgs.R
