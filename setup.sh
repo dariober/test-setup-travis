@@ -69,9 +69,44 @@ cwd=`pwd`
 mkdir -p downloads
 mkdir -p bin
 
-# snp-pileup (facets)
 # pindel (?)
 # pysam <- Rewrite requesting package(s) in java?
+
+# HTSLIB (tabix & bgzip)
+found=`command -v tabix` || true
+if [[ -z $found ]]
+then
+    cd ${cwd}/downloads
+    wget https://github.com/samtools/htslib/releases/download/1.8/htslib-1.8.tar.bz2
+    tar xf htslib-1.8.tar.bz2
+    rm htslib-1.8.tar.bz2
+    mv htslib-1.8 htslib
+    cd htslib
+    ./configure --prefix=`pwd`
+    make -j 4
+    make install
+    cp tabix ${bin_dir}/
+    cp bgzip ${bin_dir}/
+fi
+command -v tabix 
+tabix --version
+command -v bgzip 
+bgzip --version
+
+# FACETS::snp-pileup
+found=`command -v snp-pileup` || true
+if [[ -z $found ]]
+then
+    cd ${cwd}/downloads
+    rm -rf facets
+    git clone https://github.com/mskcc/facets.git
+    cd facets/inst/extcode/
+    g++ -std=c++11 -I${cwd}/downloads/htslib/include snp-pileup.cpp \
+        -L${cwd}/downloads/htslib/lib -lhts -Wl,-rpath=${cwd}/downloads/htslib/lib -o snp-pileup
+    cp snp-pileup/* ${bin_dir}/
+fi
+command -v snp-pileup
+snp-pileup --help
 
 # Picard 
 cd ${cwd}/bin
@@ -201,24 +236,6 @@ fi
 command -v samtools
 samtools --version
 
-# HTSLIB (tabix & bgzip)
-found=`command -v tabix` || true
-if [[ -z $found ]]
-then
-    cd ${cwd}/downloads
-    wget https://github.com/samtools/htslib/releases/download/1.8/htslib-1.8.tar.bz2
-    tar xf htslib-1.8.tar.bz2
-    rm htslib-1.8.tar.bz2
-    cd htslib-1.8
-    ./configure --prefix=`pwd`
-    make
-    cp tabix ${bin_dir}/
-    cp bgzip ${bin_dir}/
-fi
-command -v tabix 
-tabix --version
-command -v bgzip 
-bgzip --version
 
 # bcftools
 found=`command -v bcftools` || true
@@ -254,3 +271,5 @@ bedtools --version
 # R packages
 cd ${cwd}
 Rscript install/install_pkgs.R
+
+
