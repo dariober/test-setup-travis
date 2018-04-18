@@ -110,7 +110,7 @@ then
     wget --no-check-certificate https://sourceforge.net/projects/bbmap/files/BBMap_37.98.tar.gz
     tar xf BBMap_37.98.tar.gz
     rm BBMap_37.98.tar.gz
-    ln -s bbmap/bbduk.sh ${bin_dir}/
+    ln -s `pwd`/bbmap/bbduk.sh ${bin_dir}/
 fi
 command -v bbduk.sh
 bbduk.sh --help
