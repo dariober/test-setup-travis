@@ -72,11 +72,10 @@ mkdir -p bin
 # pindel (?)
 # pysam <- Rewrite requesting package(s) in java?
 
-# HTSLIB (tabix & bgzip)
-found=`command -v tabix` || true
-if [[ -z $found ]]
-then
-    cd ${cwd}/downloads
+function install_htslib(){
+    # Download and install htslib. Compiled stuff is in `pwd`/htslib 
+    pushd .
+    rm -f htslib-1.8.tar.bz2
     wget https://github.com/samtools/htslib/releases/download/1.8/htslib-1.8.tar.bz2
     tar xf htslib-1.8.tar.bz2
     rm htslib-1.8.tar.bz2
@@ -85,8 +84,17 @@ then
     ./configure --prefix=`pwd`
     make -j 4
     make install
-    cp tabix ${bin_dir}/
-    cp bgzip ${bin_dir}/
+    popd 
+}
+
+# HTSLIB (tabix & bgzip)
+found=`command -v tabix` || true
+if [[ -z $found ]]
+then
+    cd ${cwd}/downloads
+    install_htslib
+    cp htslib/tabix ${bin_dir}/
+    cp htslib/bgzip ${bin_dir}/
 fi
 command -v tabix 
 tabix --version
@@ -101,17 +109,23 @@ then
     rm -rf facets
     git clone https://github.com/mskcc/facets.git
     cd facets/inst/extcode/
-    g++ -std=c++11 -I${cwd}/downloads/htslib/include snp-pileup.cpp \
-        -L${cwd}/downloads/htslib/lib -lhts -Wl,-rpath=${cwd}/downloads/htslib/lib -o snp-pileup
+    install_htslib
+    g++ -std=c++11 -I`pwd`/htslib/include snp-pileup.cpp \
+        -L`pwd`/htslib/lib -lhts -Wl,-rpath=`pwd`/htslib/lib -o snp-pileup
     cp snp-pileup ${bin_dir}/
+    rm -r htslib
 fi
 command -v snp-pileup
 snp-pileup --help
 
 # Picard 
-cd ${cwd}/bin
-rm -f picard.jar
-wget https://github.com/broadinstitute/picard/releases/download/2.18.2/picard.jar
+found=`find ${cwd}/bin/ -name picard.jar`
+if [[ -z $found ]]
+then
+    cd ${cwd}/bin
+    rm -f picard.jar
+    wget https://github.com/broadinstitute/picard/releases/download/2.18.2/picard.jar
+fi
 java -jar picard.jar MarkDuplicates --version || true 
 
 # IGVTools
@@ -119,6 +133,7 @@ found=`command -v igvtools` || true
 if [[ -z $found ]]
 then
     cd ${cwd}/downloads
+    rm -f igvtools_2.3.98.zip
     wget http://data.broadinstitute.org/igv/projects/downloads/2.3/igvtools_2.3.98.zip
     unzip -q igvtools_2.3.98.zip
     rm igvtools_2.3.98.zip
@@ -129,12 +144,16 @@ command -v igvtools
 igvtools help
 
 # Manta
-cd ${cwd}/bin
-rm -f manta-1.3.2.centos6_x86_64.tar.bz2 manta-1.3.2.centos6_x86_64
-wget https://github.com/Illumina/manta/releases/download/v1.3.2/manta-1.3.2.centos6_x86_64.tar.bz2
-tar xf manta-1.3.2.centos6_x86_64.tar.bz2
-rm manta-1.3.2.centos6_x86_64.tar.bz2
-mv manta-1.3.2.centos6_x86_64 manta
+found=`command -v ${cwd}/bin/manta/bin/configManta.py`
+if [[ -z $found ]]
+then
+    cd ${cwd}/bin
+    rm -rf manta-1.3.2.centos6_x86_64.tar.bz2 manta-1.3.2.centos6_x86_64
+    wget https://github.com/Illumina/manta/releases/download/v1.3.2/manta-1.3.2.centos6_x86_64.tar.bz2
+    tar xf manta-1.3.2.centos6_x86_64.tar.bz2
+    rm manta-1.3.2.centos6_x86_64.tar.bz2
+    mv manta-1.3.2.centos6_x86_64 manta
+fi
 manta/bin/configManta.py -h
 
 # BBDuk
@@ -142,6 +161,7 @@ found=`command -v bbduk.sh` || true
 if [[ -z $found ]]
 then
     cd ${cwd}/downloads
+    rm -f BBMap_37.98.tar.gz
     wget --no-check-certificate https://sourceforge.net/projects/bbmap/files/BBMap_37.98.tar.gz
     tar xf BBMap_37.98.tar.gz
     rm BBMap_37.98.tar.gz
@@ -155,6 +175,7 @@ found=`command -v fastqc` || true
 if [[ -z $found ]]
 then
     cd ${cwd}/downloads
+    rm -f fastqc_v0.11.7.zip
     wget --no-check-certificate https://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v0.11.7.zip
     unzip -q -o fastqc_v0.11.7.zip
     rm fastqc_v0.11.7.zip
@@ -169,6 +190,7 @@ found=`command -v bwa` || true
 if [[ -z $found ]]
 then
     cd ${cwd}/downloads
+    rm -f v0.7.17.tar.gz
     wget https://github.com/lh3/bwa/archive/v0.7.17.tar.gz
     tar xf v0.7.17.tar.gz
     rm v0.7.17.tar.gz
@@ -184,6 +206,7 @@ found=`command -v gatk` || true
 if [[ -z $found ]]
 then
     cd ${cwd}/downloads
+    rm -f gatk-4.0.3.0.zip
     wget https://github.com/broadinstitute/gatk/releases/download/4.0.3.0/gatk-4.0.3.0.zip
     unzip -q gatk-4.0.3.0.zip
     rm gatk-4.0.3.0.zip
@@ -210,6 +233,7 @@ if [[ -z $found ]]
 then
     cd ${cwd}/downloads
     export PERL_MM_USE_DEFAULT=1
+    rm -f 92.1.tar.gz
     wget https://github.com/Ensembl/ensembl-vep/archive/release/92.1.tar.gz
     tar xf 92.1.tar.gz
     rm 92.1.tar.gz
@@ -225,6 +249,7 @@ found=`command -v samtools` || true
 if [[ -z $found ]]
 then
     cd ${cwd}/downloads
+    rm -f samtools-1.8.tar.bz2
     wget https://github.com/samtools/samtools/releases/download/1.8/samtools-1.8.tar.bz2
     tar xf samtools-1.8.tar.bz2
     rm samtools-1.8.tar.bz2
@@ -242,6 +267,7 @@ found=`command -v bcftools` || true
 if [[ -z $found ]]
 then
     cd ${cwd}/downloads
+    rm -f bcftools-1.8.tar.bz2
     wget https://github.com/samtools/bcftools/releases/download/1.8/bcftools-1.8.tar.bz2
     tar xf bcftools-1.8.tar.bz2
     rm bcftools-1.8.tar.bz2
@@ -258,6 +284,7 @@ found=`command -v bedtools` || true
 if [[ -z $found ]]
 then
     cd ${cwd}/downloads
+    rm -f bedtools-2.27.1.tar.gz
     wget https://github.com/arq5x/bedtools2/releases/download/v2.27.1/bedtools-2.27.1.tar.gz 
     tar xf bedtools-2.27.1.tar.gz 
     rm bedtools-2.27.1.tar.gz

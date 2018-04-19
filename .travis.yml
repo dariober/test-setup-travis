@@ -17,6 +17,7 @@ before_install:
     - easy_install --user pip
     - mkdir -p ~/R/library && echo '.libPaths(c("~/R/library", .libPaths()))' >> ~/.Rprofile # Pick a writable dir for R packages
 
-script:
+install:
     - bash setup.sh --help
     - bash setup.sh
+    - bash setup.sh # Running again should do nothing
