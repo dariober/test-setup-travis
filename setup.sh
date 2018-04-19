@@ -10,7 +10,7 @@ set -o pipefail
 
 PG=`basename "$0"`
 bin_dir=${HOME}/bin
-
+xlog=/dev/null
 # From https://stackoverflow.com/questions/192249/how-do-i-parse-command-line-arguments-in-bash
 while [[ $# -gt 0 ]]
 do
@@ -19,6 +19,11 @@ key="$1"
 case $key in
     -b|--bin_dir)
         bin_dir="$2"
+        shift # past argument
+        shift # past value
+    ;;
+    -l|--log)
+        xlog="$2"
         shift # past argument
         shift # past value
     ;;
@@ -47,6 +52,8 @@ installed. See code for programs and versions.
 
 -b|--bin_dir  Install missing programs here. This dir should writable and on
               your PATH. Default $bin_dir
+-l|--log      Write to this log file where commands have been installed and 
+              their version. 
 -v|--version  Show version
 -h|--help     Show help
 
@@ -112,8 +119,9 @@ then
     install_htslib
     g++ -std=c++11 -I`pwd`/htslib/include snp-pileup.cpp \
         -L`pwd`/htslib/lib -lhts -Wl,-rpath=`pwd`/htslib/lib -o snp-pileup
-    cp snp-pileup ${bin_dir}/
-    rm -r htslib
+    ln -sf `pwd`/snp-pileup ${bin_dir}/
+    #cp snp-pileup ${bin_dir}/
+    # rm -r htslib
 fi
 command -v snp-pileup
 snp-pileup --help
