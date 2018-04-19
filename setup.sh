@@ -11,6 +11,7 @@ set -o pipefail
 PG=`basename "$0"`
 bin_dir=${HOME}/bin
 xlog=/dev/null
+
 # From https://stackoverflow.com/questions/192249/how-do-i-parse-command-line-arguments-in-bash
 while [[ $# -gt 0 ]]
 do
@@ -53,7 +54,7 @@ installed. See code for programs and versions.
 -b|--bin_dir  Install missing programs here. This dir should writable and on
               your PATH. Default $bin_dir
 -l|--log      Write to this log file where commands have been installed and 
-              their version. 
+              their version. Default /dev/null 
 -v|--version  Show version
 -h|--help     Show help
 
@@ -75,6 +76,7 @@ set -x
 cwd=`pwd`
 mkdir -p downloads
 mkdir -p bin
+>$xlog
 
 # pindel (?)
 # pysam <- Rewrite requesting package(s) in java?
@@ -103,10 +105,10 @@ then
     cp htslib/tabix ${bin_dir}/
     cp htslib/bgzip ${bin_dir}/
 fi
-command -v tabix 
-tabix --version
-command -v bgzip 
-bgzip --version
+command -v tabix | tee -a $xlog
+tabix --version | tee -a $xlog
+command -v bgzip | tee -a $xlog
+bgzip --version | tee -a $xlog
 
 # FACETS::snp-pileup
 found=`command -v snp-pileup` || true
@@ -123,8 +125,8 @@ then
     #cp snp-pileup ${bin_dir}/
     # rm -r htslib
 fi
-command -v snp-pileup
-snp-pileup --help
+command -v snp-pileup | tee -a $xlog
+snp-pileup --help | tee -a $xlog
 
 # Picard 
 found=`find ${cwd}/bin/ -name picard.jar`
@@ -134,7 +136,7 @@ then
     rm -f picard.jar
     wget https://github.com/broadinstitute/picard/releases/download/2.18.2/picard.jar
 fi
-java -jar picard.jar MarkDuplicates --version || true 
+java -jar ${cwd}/bin/picard.jar MarkDuplicates --version || true | tee -a $xlog
 
 # IGVTools
 found=`command -v igvtools` || true
@@ -148,11 +150,11 @@ then
     cp IGVTools/igvtools ${bin_dir}/
     cp IGVTools/igvtools.jar ${bin_dir}/
 fi
-command -v igvtools
-igvtools help
+command -v igvtools | tee -a $xlog
+igvtools help | tee -a $xlog
 
 # Manta
-found=`command -v ${cwd}/bin/manta/bin/configManta.py`
+found=`command -v ${cwd}/bin/manta/bin/configManta.py` || true
 if [[ -z $found ]]
 then
     cd ${cwd}/bin
@@ -162,7 +164,7 @@ then
     rm manta-1.3.2.centos6_x86_64.tar.bz2
     mv manta-1.3.2.centos6_x86_64 manta
 fi
-manta/bin/configManta.py -h
+${cwd}/bin/manta/bin/configManta.py -h | tee -a $xlog
 
 # BBDuk
 found=`command -v bbduk.sh` || true
@@ -175,8 +177,8 @@ then
     rm BBMap_37.98.tar.gz
     ln -s `pwd`/bbmap/bbduk.sh ${bin_dir}/
 fi
-command -v bbduk.sh
-bbduk.sh --help
+command -v bbduk.sh | tee -a $xlog
+bbduk.sh --help | tee -a $xlog
 
 # FastQC
 found=`command -v fastqc` || true
@@ -190,8 +192,8 @@ then
     ln -s `pwd`/FastQC/fastqc ${bin_dir}/
     chmod a+x `pwd`/FastQC/fastqc
 fi
-command -v fastqc
-fastqc --version
+command -v fastqc | tee -a $xlog
+fastqc --version | tee -a $xlog
 
 # BWA
 found=`command -v bwa` || true
@@ -206,8 +208,8 @@ then
     make
     cp bwa ${bin_dir}/
 fi
-command -v bwa
-bwa || true # bwa doesn't have a --version or --help option
+command -v bwa | tee -a $xlog
+bwa || true | tee -a $xlog # bwa doesn't have a --version or --help option
 
 # GATK4
 found=`command -v gatk` || true
@@ -220,8 +222,8 @@ then
     rm gatk-4.0.3.0.zip
     ln -s `pwd`/gatk-4.0.3.0/gatk ${bin_dir}/
 fi
-command -v gatk
-gatk Mutect2 --version
+command -v gatk | tee -a $xlog
+gatk Mutect2 --version | tee -a $xlog
 
 # Snakemake
 found=`command -v snakemake` || true
@@ -229,8 +231,8 @@ if [[ -z $found ]]
 then
     pip3 install --user 'snakemake==4.8.0'
 fi
-command -v snakemake
-snakemake --version
+command -v snakemake | tee -a $xlog
+snakemake --version | tee -a $xlog
 
 # Python/Pandas
 pip3 install --user pandas
@@ -249,8 +251,8 @@ then
     perl INSTALL.pl --NO_HTSLIB --AUTO a 
     ln -s `pwd`/vep ${bin_dir}/
 fi
-command -v vep
-vep --help
+command -v vep | tee -a $xlog
+vep --help | tee -a $xlog
 
 # Samtools
 found=`command -v samtools` || true
@@ -266,8 +268,8 @@ then
     make
     cp samtools ${bin_dir}/
 fi
-command -v samtools
-samtools --version
+command -v samtools | tee -a $xlog
+samtools --version | tee -a $xlog
 
 
 # bcftools
@@ -284,8 +286,8 @@ then
     make
     cp bcftools ${bin_dir}/
 fi
-command -v bcftools 
-bcftools --version
+command -v bcftools | tee -a $xlog
+bcftools --version | tee -a $xlog
 
 # BEDTOOLS
 found=`command -v bedtools` || true
@@ -300,8 +302,8 @@ then
     make -j 6
     cp bin/* ${bin_dir}/
 fi
-command -v bedtools
-bedtools --version
+command -v bedtools | tee -a $xlog
+bedtools --version | tee -a $xlog
 
 # R packages
 cd ${cwd}
